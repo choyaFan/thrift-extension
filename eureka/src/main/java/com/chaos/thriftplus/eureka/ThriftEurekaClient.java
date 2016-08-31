@@ -9,12 +9,16 @@ import com.netflix.appinfo.providers.EurekaConfigBasedInstanceInfoProvider;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.EurekaClientConfig;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import org.apache.thrift.protocol.TProtocol;
 
 /**
  * Created by zcfrank1st on 8/31/16.
  */
 public class ThriftEurekaClient {
+    private static final Config conf = ConfigFactory.load("eureka-service");
+
     private EurekaClient eurekaClient;
     private ThriftConnectionPool pool;
 
@@ -25,9 +29,8 @@ public class ThriftEurekaClient {
     }
 
     public TProtocol getConnection () {
-        // TODO get conf
         try {
-            InstanceInfo serverInfo = eurekaClient.getNextServerFromEureka("", false);
+            InstanceInfo serverInfo = eurekaClient.getNextServerFromEureka(conf.getString("eureka.vipAddress"), false);
             ThriftPoolConfig config = new ThriftPoolConfig.Builder().setIp(serverInfo.getIPAddr()).setPort(serverInfo.getPort()).setTimeout(3000).build();
             pool = new ThriftConnectionPool(config);
             return pool.getConnection();

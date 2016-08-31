@@ -3,11 +3,14 @@ package com.chaos.thriftplus.eureka;
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 /**
  * Created by zcfrank1st on 8/31/16.
  */
 public class ThriftEurekaRegister {
+    private static final Config conf = ConfigFactory.load("eureka-service");
 
     public ThriftEurekaRegister(ApplicationInfoManager manager, EurekaClient client, InstanceInfo.InstanceStatus status) {
         register(manager, client, status);
@@ -20,8 +23,7 @@ public class ThriftEurekaRegister {
     }
 
     private void waitForRegistrationWithEureka(EurekaClient eurekaClient) {
-        // TODO get conf
-        String vipAddress = "";//configInstance.getStringProperty("eureka.vipAddress", "sampleservice.mydomain.net").get();
+        String vipAddress = conf.getString("eureka.vipAddress");
         InstanceInfo nextServerInfo = null;
         while (nextServerInfo == null) {
             try {
