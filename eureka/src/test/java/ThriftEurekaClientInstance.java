@@ -9,11 +9,11 @@ import org.apache.thrift.protocol.TProtocol;
 public class ThriftEurekaClientInstance {
     public static void main(String[] args) throws TException {
         // TODO
-        ThriftEurekaClient client = new ThriftEurekaClient(null, null);
+        ThriftEurekaClient session = new ThriftEurekaClient(null, null);
 
-        TProtocol protocol = client.getConnection();
-        ObjectIdGenerator.Client client1 = new ObjectIdGenerator.Client(protocol);
-        client1.getObjectId();
-        client.returnConnection(protocol);
+        TProtocol protocol = session.getConnection();
+        ObjectIdGenerator.Client client = new ObjectIdGenerator.Client(protocol);
+        System.out.println(client.getObjectId());
+        session.returnConnection(protocol);
     }
 }
