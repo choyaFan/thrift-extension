@@ -27,28 +27,13 @@ public class EurekaServiceBase {
 
     @PostConstruct
     public void register() {
-        // A good practice is to register as STARTING and only change status to UP
-        // after the service is ready to receive traffic
-        System.out.println("Registering service to eureka with STARTING status");
-        applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.STARTING);
-
-        System.out.println("Simulating service initialization by sleeping for 2 seconds...");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            // Nothing
-        }
-
-        // Now we change our status to UP
-        System.out.println("Done sleeping, now changing status to UP");
         applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.UP);
         waitForRegistrationWithEureka(eurekaClient);
         System.out.println("Service started and ready to process requests..");
     }
 
     private void waitForRegistrationWithEureka(EurekaClient eurekaClient) {
-        // my vip address to listen on
-        String vipAddress = configInstance.getStringProperty("eureka.vipAddress", "sampleservice.mydomain.net").get();
+        String vipAddress = configInstance.getStringProperty("eureka.vipAddress", "localhost").get();
         InstanceInfo nextServerInfo = null;
         while (nextServerInfo == null) {
             try {
