@@ -1,9 +1,5 @@
 import com.chaos.thriftplus.eureka.ThriftEurekaClient;
 import com.chaos.thriftplus.eureka.test.gen.ObjectIdGenerator;
-import com.netflix.appinfo.EurekaInstanceConfig;
-import com.netflix.appinfo.MyDataCenterInstanceConfig;
-import com.netflix.discovery.DefaultEurekaClientConfig;
-import com.netflix.discovery.EurekaClientConfig;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
 
