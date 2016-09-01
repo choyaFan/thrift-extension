@@ -10,7 +10,6 @@ import com.netflix.appinfo.providers.EurekaConfigBasedInstanceInfoProvider;
 import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
-import com.netflix.discovery.EurekaClientConfig;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.apache.thrift.protocol.TProtocol;
