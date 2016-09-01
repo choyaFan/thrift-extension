@@ -1,19 +1,24 @@
 package com.chaos.thriftplus.eureka;
 
 import com.chaos.thriftplus.core.ThriftPlus;
-import org.inferred.freebuilder.FreeBuilder;
+import org.apache.thrift.TProcessor;
 
 /**
  * Created by zcfrank1st on 8/31/16.
  */
-@FreeBuilder
-public interface ThriftPlusWithEureka {
-    ThriftPlus getThriftPlus();
-    ThriftEurekaRegister getThriftEurekaRegister();
+public class ThriftPlusWithEureka {
+    private ThriftPlus plus;
 
-    default void serve() {
-        getThriftPlus().serve();
+    public ThriftPlusWithEureka(int port, TProcessor processor) {
+        new ThriftEurekaRegister();
+
+        plus = new ThriftPlus.Builder()
+                .setPort(port)
+                .setTProcessor(processor)
+                .build();
     }
 
-    class Builder extends ThriftPlusWithEureka_Builder {}
+    public void serve() {
+        plus.serve();
+    }
 }

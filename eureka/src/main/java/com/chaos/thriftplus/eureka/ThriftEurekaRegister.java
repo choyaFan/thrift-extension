@@ -1,53 +1,43 @@
+/*
+ * Copyright 2012 Netflix, Inc.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package com.chaos.thriftplus.eureka;
 
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.EurekaInstanceConfig;
 import com.netflix.appinfo.InstanceInfo;
+import com.netflix.appinfo.MyDataCenterInstanceConfig;
 import com.netflix.appinfo.providers.EurekaConfigBasedInstanceInfoProvider;
+import com.netflix.config.DynamicPropertyFactory;
+import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
-import com.netflix.discovery.EurekaClientConfig;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
-/**
- * Created by zcfrank1st on 8/31/16.
- */
 public class ThriftEurekaRegister {
-    private static final Config conf = ConfigFactory.load("eureka-service");
 
-    public ThriftEurekaRegister(EurekaInstanceConfig instanceConfig, EurekaClientConfig clientConfig) {
-        InstanceInfo instanceInfo = new EurekaConfigBasedInstanceInfoProvider(instanceConfig).get();
-        ApplicationInfoManager manager = new ApplicationInfoManager(instanceConfig, instanceInfo);
-        EurekaClient client = new DiscoveryClient(manager, clientConfig);
+    public ThriftEurekaRegister() {
+        DynamicPropertyFactory configInstance = com.netflix.config.DynamicPropertyFactory.getInstance();
 
-        InstanceInfo.InstanceStatus status = instanceInfo.setStatus(InstanceInfo.InstanceStatus.UP);
+        EurekaInstanceConfig instanceConfig = new MyDataCenterInstanceConfig();
+        InstanceInfo instanceInfo  = new EurekaConfigBasedInstanceInfoProvider(instanceConfig).get();
+        ApplicationInfoManager applicationInfoManager = new ApplicationInfoManager(instanceConfig, instanceInfo);
 
-        register(manager, client, status);
-    }
+        EurekaClient eurekaClient = new DiscoveryClient(applicationInfoManager, new DefaultEurekaClientConfig());
 
-    private void register(ApplicationInfoManager manager, EurekaClient client, InstanceInfo.InstanceStatus status) {
-        manager.setInstanceStatus(status);
-        waitForRegistrationWithEureka(client);
-        System.out.println("Service status " + status.name() + " successful registered");
-    }
-
-    private void waitForRegistrationWithEureka(EurekaClient eurekaClient) {
-        String vipAddress = conf.getString("eureka.vipAddress");
-        InstanceInfo nextServerInfo = null;
-        while (nextServerInfo == null) {
-            try {
-                nextServerInfo = eurekaClient.getNextServerFromEureka(vipAddress, false);
-            } catch (Throwable e) {
-                System.out.println("Waiting ... verifying service registration with eureka ...");
-
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-        eurekaClient.shutdown();
+        EurekaServiceBase eurekaServiceBase = new EurekaServiceBase(applicationInfoManager, eurekaClient, configInstance);
+        eurekaServiceBase.register();
     }
 }

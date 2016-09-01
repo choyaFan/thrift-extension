@@ -1,6 +1,8 @@
 import com.chaos.thriftplus.eureka.ThriftEurekaClient;
 import com.chaos.thriftplus.eureka.test.gen.ObjectIdGenerator;
 import com.netflix.appinfo.EurekaInstanceConfig;
+import com.netflix.appinfo.MyDataCenterInstanceConfig;
+import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.EurekaClientConfig;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
@@ -10,9 +12,8 @@ import org.apache.thrift.protocol.TProtocol;
  */
 public class ThriftEurekaClientInstance {
     public static void main(String[] args) throws TException {
-        // TODO
-        EurekaInstanceConfig instanceConfig = null;
-        EurekaClientConfig clientConfig = null;
+        EurekaInstanceConfig instanceConfig = new MyDataCenterInstanceConfig();
+        EurekaClientConfig clientConfig = new DefaultEurekaClientConfig();
 
 
         ThriftEurekaClient session = new ThriftEurekaClient(instanceConfig, clientConfig);

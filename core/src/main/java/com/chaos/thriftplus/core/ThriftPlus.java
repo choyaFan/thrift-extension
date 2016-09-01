@@ -29,7 +29,7 @@ public interface ThriftPlus {
             try {
                 tnbSocketTransport = new TNonblockingServerSocket(getPort());
             } catch (TTransportException e) {
-                throw new RuntimeException("TNonblockingServerSocket init error");
+                throw new RuntimeException(e);
             }
             TNonblockingServer.Args tnbArgs = new TNonblockingServer.Args(tnbSocketTransport);
             tnbArgs.processor(getTProcessor());
