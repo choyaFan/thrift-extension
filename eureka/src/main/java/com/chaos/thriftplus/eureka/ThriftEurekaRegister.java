@@ -1,8 +1,12 @@
 package com.chaos.thriftplus.eureka;
 
 import com.netflix.appinfo.ApplicationInfoManager;
+import com.netflix.appinfo.EurekaInstanceConfig;
 import com.netflix.appinfo.InstanceInfo;
+import com.netflix.appinfo.providers.EurekaConfigBasedInstanceInfoProvider;
+import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.EurekaClientConfig;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -12,7 +16,13 @@ import com.typesafe.config.ConfigFactory;
 public class ThriftEurekaRegister {
     private static final Config conf = ConfigFactory.load("eureka-service");
 
-    public ThriftEurekaRegister(ApplicationInfoManager manager, EurekaClient client, InstanceInfo.InstanceStatus status) {
+    public ThriftEurekaRegister(EurekaInstanceConfig instanceConfig, EurekaClientConfig clientConfig) {
+        InstanceInfo instanceInfo = new EurekaConfigBasedInstanceInfoProvider(instanceConfig).get();
+        ApplicationInfoManager manager = new ApplicationInfoManager(instanceConfig, instanceInfo);
+        EurekaClient client = new DiscoveryClient(manager, clientConfig);
+
+        InstanceInfo.InstanceStatus status = instanceInfo.setStatus(InstanceInfo.InstanceStatus.UP);
+
         register(manager, client, status);
     }
 

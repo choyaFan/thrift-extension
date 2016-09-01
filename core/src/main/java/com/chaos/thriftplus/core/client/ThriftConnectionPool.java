@@ -15,7 +15,7 @@ public class ThriftConnectionPool implements ConnectionProvider {
 
         GenericObjectPoolConfig poolConfig = config.getPoolConfig();
         if (null != poolConfig)
-            objectPool.setConfig(poolConfig);
+            objectPool.setConfig(config.getPoolConfig());
     }
 
     @Override

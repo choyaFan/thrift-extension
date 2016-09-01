@@ -43,6 +43,9 @@ public class ThriftEurekaClient {
         pool.returnConnection(p);
     }
 
+    /**
+     * not for common use
+     */
     public void close() {
         pool.close();
     }
