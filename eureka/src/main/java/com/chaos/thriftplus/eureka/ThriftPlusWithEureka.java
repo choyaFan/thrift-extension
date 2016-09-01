@@ -8,9 +8,11 @@ import org.apache.thrift.TProcessor;
  */
 public class ThriftPlusWithEureka {
     private ThriftPlus plus;
+    private ThriftEurekaRegister register;
 
     public ThriftPlusWithEureka(int port, TProcessor processor) {
-        new ThriftEurekaRegister();
+        register = new ThriftEurekaRegister();
+        register.register();
 
         plus = new ThriftPlus.Builder()
                 .setPort(port)
@@ -20,5 +22,9 @@ public class ThriftPlusWithEureka {
 
     public void serve() {
         plus.serve();
+    }
+
+    public void shutdown() {
+        register.registerDown();
     }
 }

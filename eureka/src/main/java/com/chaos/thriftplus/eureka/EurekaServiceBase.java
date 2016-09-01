@@ -32,6 +32,10 @@ public class EurekaServiceBase {
         System.out.println("Service started and ready to process requests..");
     }
 
+    public void registerDown() {
+        applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.DOWN);
+    }
+
     private void waitForRegistrationWithEureka(EurekaClient eurekaClient) {
         String vipAddress = configInstance.getStringProperty("eureka.vipAddress", "localhost").get();
         InstanceInfo nextServerInfo = null;

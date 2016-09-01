@@ -27,6 +27,7 @@ import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
 
 public class ThriftEurekaRegister {
+    private EurekaServiceBase eurekaServiceBase;
 
     public ThriftEurekaRegister() {
         DynamicPropertyFactory configInstance = com.netflix.config.DynamicPropertyFactory.getInstance();
@@ -37,7 +38,14 @@ public class ThriftEurekaRegister {
 
         EurekaClient eurekaClient = new DiscoveryClient(applicationInfoManager, new DefaultEurekaClientConfig());
 
-        EurekaServiceBase eurekaServiceBase = new EurekaServiceBase(applicationInfoManager, eurekaClient, configInstance);
+        eurekaServiceBase = new EurekaServiceBase(applicationInfoManager, eurekaClient, configInstance);
+    }
+
+    public void register() {
         eurekaServiceBase.register();
+    }
+
+    public void registerDown () {
+        eurekaServiceBase.registerDown();
     }
 }
