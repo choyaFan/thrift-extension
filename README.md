@@ -18,4 +18,8 @@ NEED TO TEST
 
 need **eureka-spring-cloud-server**
 
+#### Licence
+
+MIT
+
     
