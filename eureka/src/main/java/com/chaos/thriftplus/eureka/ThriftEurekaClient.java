@@ -38,7 +38,7 @@ public class ThriftEurekaClient {
             pool = new ThriftConnectionPool(config);
             return pool.getConnection();
         } catch (Exception e) {
-            throw new RuntimeException("get thrift connection error");
+            throw new RuntimeException(e);
         }
     }
 
