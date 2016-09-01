@@ -12,12 +12,7 @@ import org.apache.thrift.protocol.TProtocol;
  */
 public class ThriftEurekaClientInstance {
     public static void main(String[] args) throws TException {
-        EurekaInstanceConfig instanceConfig = new MyDataCenterInstanceConfig();
-        EurekaClientConfig clientConfig = new DefaultEurekaClientConfig();
-
-
-        ThriftEurekaClient session = new ThriftEurekaClient(instanceConfig, clientConfig);
-
+        ThriftEurekaClient session = new ThriftEurekaClient();
         TProtocol protocol = session.getConnection();
         ObjectIdGenerator.Client client = new ObjectIdGenerator.Client(protocol);
         System.out.println(client.getObjectId());

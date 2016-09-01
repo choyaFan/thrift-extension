@@ -5,7 +5,9 @@ import com.chaos.thriftplus.core.client.ThriftPoolConfig;
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.EurekaInstanceConfig;
 import com.netflix.appinfo.InstanceInfo;
+import com.netflix.appinfo.MyDataCenterInstanceConfig;
 import com.netflix.appinfo.providers.EurekaConfigBasedInstanceInfoProvider;
+import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.EurekaClientConfig;
@@ -22,10 +24,11 @@ public class ThriftEurekaClient {
     private EurekaClient eurekaClient;
     private ThriftConnectionPool pool;
 
-    public ThriftEurekaClient (EurekaInstanceConfig instanceConfig, EurekaClientConfig clientConfig) {
+    public ThriftEurekaClient () {
+        EurekaInstanceConfig instanceConfig = new MyDataCenterInstanceConfig();
         InstanceInfo instanceInfo = new EurekaConfigBasedInstanceInfoProvider(instanceConfig).get();
         ApplicationInfoManager manager = new ApplicationInfoManager(instanceConfig, instanceInfo);
-        eurekaClient = new DiscoveryClient(manager, clientConfig);
+        eurekaClient = new DiscoveryClient(manager, new DefaultEurekaClientConfig());
     }
 
     public TProtocol getConnection () {
