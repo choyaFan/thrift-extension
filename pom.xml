@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.chaos</groupId>
+    <groupId>com.choy</groupId>
     <artifactId>thrift-plus</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -44,13 +44,13 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.16.10</version>
+                <version>1.18.2</version>
             </dependency>
 
             <dependency>
                 <groupId>org.inferred</groupId>
                 <artifactId>freebuilder</artifactId>
-                <version>1.10.4</version>
+                <version>2.3.0</version>
             </dependency>
 
             <dependency>
@@ -88,13 +88,18 @@
                 <artifactId>guice</artifactId>
                 <version>4.1.0</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>core</module>
         <module>eureka</module>
-        <module>ribbon-eureka</module>
     </modules>
 
     <build>

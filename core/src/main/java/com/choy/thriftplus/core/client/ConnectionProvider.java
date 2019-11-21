@@ -1,25 +1,22 @@
-package com.chaos.thriftplus.core.client;
+package com.choy.thriftplus.core.client;
 
 import org.apache.thrift.protocol.TProtocol;
 
-/**
- * Created by zcfrank1st on 8/31/16.
- */
 public interface ConnectionProvider {
     /**
-     * 获取连接
+     * get connection
      * @return
      */
     TProtocol getConnection();
 
     /**
-     * 将protocol放回连接池
+     * put thr protocol back to the pool
      * @param tProtocol
      */
     void returnConnection(TProtocol tProtocol);
 
     /**
-     * 关闭连接池
+     * close pool
      */
     void close ();
 }

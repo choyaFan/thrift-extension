@@ -1,5 +1,9 @@
-namespace java com.chaos.thriftplus.eureka.test.gen
+namespace java com.choy.thriftplus.eureka.test.gen
 
 service ObjectIdGenerator {
-    string getObjectId()
+    string getObjectId(string id)
+}
+
+service ExternalService {
+    string externalService(string token)
 }

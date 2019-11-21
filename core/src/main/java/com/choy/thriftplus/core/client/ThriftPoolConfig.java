@@ -1,13 +1,9 @@
-package com.chaos.thriftplus.core.client;
+package com.choy.thriftplus.core.client;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.inferred.freebuilder.FreeBuilder;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-
-/**
- * Created by zcfrank1st on 8/31/16.
- */
 @FreeBuilder
 public interface ThriftPoolConfig {
     String getIp();

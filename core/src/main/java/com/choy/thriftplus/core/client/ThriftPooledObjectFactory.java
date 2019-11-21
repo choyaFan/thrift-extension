@@ -1,4 +1,4 @@
-package com.chaos.thriftplus.core.client;
+package com.choy.thriftplus.core.client;
 
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
@@ -9,9 +9,6 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
-/**
- * Created by zcfrank1st on 8/31/16.
- */
 public class ThriftPooledObjectFactory implements PooledObjectFactory<TProtocol> {
     private String ip;
     private int port;
@@ -23,6 +20,7 @@ public class ThriftPooledObjectFactory implements PooledObjectFactory<TProtocol>
         this.timeout = config.getTimeout();
     }
 
+    @Override
     public PooledObject<TProtocol> makeObject() throws Exception {
         TSocket tSocket = new TSocket(ip, port, timeout);
         TTransport tTransport = new TFramedTransport(tSocket);
@@ -31,6 +29,7 @@ public class ThriftPooledObjectFactory implements PooledObjectFactory<TProtocol>
         return new DefaultPooledObject<>(tProtocol);
     }
 
+    @Override
     public void destroyObject(PooledObject<TProtocol> pooledObject) throws Exception {
         TProtocol tProtocol = pooledObject.getObject();
         TTransport tTransport = tProtocol.getTransport();
@@ -39,14 +38,17 @@ public class ThriftPooledObjectFactory implements PooledObjectFactory<TProtocol>
         }
     }
 
+    @Override
     public boolean validateObject(PooledObject<TProtocol> pooledObject) {
         return pooledObject.getObject().getTransport().isOpen();
     }
 
+    @Override
     public void activateObject(PooledObject<TProtocol> pooledObject) throws Exception {
 
     }
 
+    @Override
     public void passivateObject(PooledObject<TProtocol> pooledObject) throws Exception {
 
     }

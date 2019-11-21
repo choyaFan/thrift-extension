@@ -1,12 +1,9 @@
-import com.chaos.thriftplus.core.client.ThriftConnectionPool;
-import com.chaos.thriftplus.core.client.ThriftPoolConfig;
-import com.chaos.thriftplus.test.gen.ObjectIdGenerator;
+import com.choy.thriftplus.core.client.ThriftConnectionPool;
+import com.choy.thriftplus.core.client.ThriftPoolConfig;
+import com.choy.thriftplus.test.gen.ObjectIdGenerator;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
 
-/**
- * Created by zcfrank1st on 8/31/16.
- */
 public class Client {
     public static void main(String[] args) {
         ThriftPoolConfig config = new ThriftPoolConfig.Builder().setIp("localhost").setPort(8881).setTimeout(3000).build();

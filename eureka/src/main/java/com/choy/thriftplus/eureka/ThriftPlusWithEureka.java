@@ -1,17 +1,14 @@
-package com.chaos.thriftplus.eureka;
+package com.choy.thriftplus.eureka;
 
-import com.chaos.thriftplus.core.ThriftPlus;
+import com.choy.thriftplus.core.ThriftPlus;
 import org.apache.thrift.TProcessor;
 
-/**
- * Created by zcfrank1st on 8/31/16.
- */
 public class ThriftPlusWithEureka {
     private ThriftPlus plus;
     private ThriftEurekaRegister register;
 
-    public ThriftPlusWithEureka(int port, TProcessor processor) {
-        register = new ThriftEurekaRegister();
+    public ThriftPlusWithEureka(int port, TProcessor processor, String vName) {
+        register = new ThriftEurekaRegister(port, vName);
         register.register();
 
         plus = new ThriftPlus.Builder()

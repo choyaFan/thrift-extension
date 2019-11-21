@@ -1,12 +1,9 @@
-package com.chaos.thriftplus.core.client;
+package com.choy.thriftplus.core.client;
 
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.protocol.TProtocol;
 
-/**
- * Created by zcfrank1st on 8/31/16.
- */
 public class ThriftConnectionPool implements ConnectionProvider {
     private GenericObjectPool<TProtocol> objectPool;
 
@@ -23,7 +20,7 @@ public class ThriftConnectionPool implements ConnectionProvider {
         try {
             return objectPool.borrowObject();
         } catch (Exception e) {
-            throw new RuntimeException("getConnection出现异常", e);
+            throw new RuntimeException("getConnection error", e);
         }
     }
 
@@ -32,7 +29,7 @@ public class ThriftConnectionPool implements ConnectionProvider {
         try {
             objectPool.returnObject(tProtocol);
         } catch (Exception e) {
-            throw new RuntimeException("returnConnection出现异常", e);
+            throw new RuntimeException("returnConnection error", e);
         }
     }
 
@@ -41,7 +38,7 @@ public class ThriftConnectionPool implements ConnectionProvider {
         try {
             objectPool.close();
         } catch (Exception e) {
-            throw new RuntimeException("close出现异常", e);
+            throw new RuntimeException("close error", e);
         }
     }
 }

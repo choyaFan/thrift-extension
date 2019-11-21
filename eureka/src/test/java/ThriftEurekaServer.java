@@ -1,19 +1,33 @@
-import com.chaos.thriftplus.eureka.ThriftPlusWithEureka;
-import com.chaos.thriftplus.eureka.test.gen.ObjectIdGenerator;
+import com.choy.thriftplus.eureka.test.gen.ExternalService;
+import org.apache.thrift.server.TServer;
+import org.apache.thrift.server.TSimpleServer;
+import org.apache.thrift.transport.TServerSocket;
+import org.apache.thrift.transport.TTransportException;
 
-/**
- * Created by zcfrank1st on 8/31/16.
- */
+import java.io.IOException;
+import java.net.ServerSocket;
+
 public class ThriftEurekaServer {
     public static void main(String[] args) {
-        ThriftPlusWithEureka server = null;
+//        ThriftPlusWithEureka server = null;
+//        try {
+//            server = new ThriftPlusWithEureka(8081, new ExternalService.Processor<>(new FilterService()), "eureka.vipAddress");
+//            server.serve();
+//        } finally {
+//            if (server != null) {
+//                server.shutdown();
+//            }
+//        }
         try {
-            server = new ThriftPlusWithEureka(8881, new ObjectIdGenerator.Processor<>(new Service()));
+            ServerSocket socket = new ServerSocket(8081);
+            TServerSocket serverTransport = new TServerSocket(socket);
+            ExternalService.Processor processor = new ExternalService.Processor(new FilterService());
+            TServer.Args tServerArgs = new TServer.Args(serverTransport);
+            tServerArgs.processor(processor);
+            TServer server = new TSimpleServer(tServerArgs);
             server.serve();
-        } finally {
-            if (server != null) {
-                server.shutdown();
-            }
+        }catch (IOException | TTransportException e ){
+            e.printStackTrace();
         }
     }
 }

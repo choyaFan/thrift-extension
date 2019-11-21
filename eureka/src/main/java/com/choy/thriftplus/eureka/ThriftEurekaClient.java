@@ -1,7 +1,7 @@
-package com.chaos.thriftplus.eureka;
+package com.choy.thriftplus.eureka;
 
-import com.chaos.thriftplus.core.client.ThriftConnectionPool;
-import com.chaos.thriftplus.core.client.ThriftPoolConfig;
+import com.choy.thriftplus.core.client.ThriftConnectionPool;
+import com.choy.thriftplus.core.client.ThriftPoolConfig;
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.EurekaInstanceConfig;
 import com.netflix.appinfo.InstanceInfo;
@@ -14,9 +14,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.apache.thrift.protocol.TProtocol;
 
-/**
- * Created by zcfrank1st on 8/31/16.
- */
 public class ThriftEurekaClient {
     private static final Config conf = ConfigFactory.load("eureka-service");
 
@@ -24,15 +21,27 @@ public class ThriftEurekaClient {
     private ThriftConnectionPool pool;
 
     public ThriftEurekaClient () {
-        EurekaInstanceConfig instanceConfig = new MyDataCenterInstanceConfig();
+        EurekaInstanceConfig instanceConfig = new MyDataCenterInstanceConfig(){
+            @Override
+            public String getHostName(boolean refresh) {
+                String hostName = super.getHostName(refresh);
+                hostName = "localhost";
+                return hostName;
+            }
+
+            @Override
+            public String getIpAddress() {
+                return "127.0.0.1";
+            }
+        };
         InstanceInfo instanceInfo = new EurekaConfigBasedInstanceInfoProvider(instanceConfig).get();
         ApplicationInfoManager manager = new ApplicationInfoManager(instanceConfig, instanceInfo);
         eurekaClient = new DiscoveryClient(manager, new DefaultEurekaClientConfig());
     }
 
-    public TProtocol getConnection () {
+    public TProtocol getConnection (String vName) {
         try {
-            InstanceInfo serverInfo = eurekaClient.getNextServerFromEureka(conf.getString("eureka.vipAddress"), false);
+            InstanceInfo serverInfo = eurekaClient.getNextServerFromEureka(conf.getString(vName), false);
             ThriftPoolConfig config = new ThriftPoolConfig.Builder().setIp(serverInfo.getIPAddr()).setPort(serverInfo.getPort()).setTimeout(3000).build();
             pool = new ThriftConnectionPool(config);
             return pool.getConnection();
@@ -45,9 +54,7 @@ public class ThriftEurekaClient {
         pool.returnConnection(p);
     }
 
-    /**
-     * not for common use
-     */
+    //not for common use
     public void close() {
         pool.close();
     }
