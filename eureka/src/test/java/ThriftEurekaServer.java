@@ -9,15 +9,6 @@ import java.net.ServerSocket;
 
 public class ThriftEurekaServer {
     public static void main(String[] args) {
-//        ThriftPlusWithEureka server = null;
-//        try {
-//            server = new ThriftPlusWithEureka(8081, new ExternalService.Processor<>(new FilterService()), "eureka.vipAddress");
-//            server.serve();
-//        } finally {
-//            if (server != null) {
-//                server.shutdown();
-//            }
-//        }
         try {
             ServerSocket socket = new ServerSocket(8081);
             TServerSocket serverTransport = new TServerSocket(socket);
