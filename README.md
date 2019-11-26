@@ -1,25 +1,17 @@
-Thrift-Plus
+Thrift-Extension
 ==
 
-#### Modules
+#### core
     
     
-    [core]
-        contains thrift pool client and server
+    the core code including pooling, gateway, load-balancer...
     
     [eureka]
         contains module core and eureka function
-         
-NEED TO TEST
 
-#### Usage
+#### Eureka
+    contains module core and eureka function
+
 
 [eureka module]
-
 need **eureka-spring-cloud-server**
-
-#### Licence
-
-MIT
-
-    
