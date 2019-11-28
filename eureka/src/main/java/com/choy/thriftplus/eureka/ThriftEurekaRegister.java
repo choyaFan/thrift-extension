@@ -23,10 +23,14 @@ public class ThriftEurekaRegister {
             public String getHostName(boolean refresh) {
                 String hostName = super.getHostName(refresh);
                 if(configInstance.getBooleanProperty("eureka.preferIpAddress",true).get()){
-                    hostName = "localhost";
+                    hostName = "localhost:" + port;
                 }
                 return hostName;
             }
+//            @Override
+//            public String getVirtualHostName(){
+//                return "localhost:" + port;
+//            }
 
             @Override
             public String getIpAddress() {
