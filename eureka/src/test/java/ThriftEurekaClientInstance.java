@@ -1,6 +1,6 @@
 import com.choy.thriftplus.core.loadBalancer.DynamicLoadBalancer;
 import com.choy.thriftplus.core.loadBalancer.RoundRobinDynamicLoadBalancer;
-import com.choy.thriftplus.eureka.test.gen.ExternalService;
+import com.choy.thriftplus.eureka.test.gen.ExternalServiceS;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
@@ -17,7 +17,7 @@ public class ThriftEurekaClientInstance {
 
             TProtocol protocol = new TBinaryProtocol(transport);
 
-            ExternalService.Client client = new ExternalService.Client(protocol);
+            ExternalServiceS.Client client = new ExternalServiceS.Client(protocol);
 
             transport.open();
 

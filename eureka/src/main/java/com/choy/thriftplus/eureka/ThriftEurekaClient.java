@@ -41,7 +41,7 @@ public class ThriftEurekaClient {
 
     public TProtocol getConnection (String vName) {
         try {
-            InstanceInfo serverInfo = eurekaClient.getNextServerFromEureka(conf.getString(vName), false);
+            InstanceInfo serverInfo = eurekaClient.getNextServerFromEureka("myService", false);
             ThriftPoolConfig config = new ThriftPoolConfig.Builder().setIp(serverInfo.getIPAddr()).setPort(serverInfo.getPort()).setTimeout(3000).build();
             pool = new ThriftConnectionPool(config);
             return pool.getConnection();
