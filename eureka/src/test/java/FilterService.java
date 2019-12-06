@@ -1,12 +1,12 @@
 import com.choy.thriftplus.core.filter.FilterProcessor;
 import com.choy.thriftplus.core.filter.FilterScanner;
 import com.choy.thriftplus.eureka.ThriftEurekaClient;
-import com.choy.thriftplus.eureka.test.gen.ExternalServiceS;
+import com.choy.thriftplus.eureka.test.gen.ExternalService;
 import com.choy.thriftplus.eureka.test.gen.ObjectIdGenerator;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
 
-public class FilterService implements ExternalServiceS.Iface {
+public class FilterService implements ExternalService.Iface {
     @Override
     public String externalService(String token) throws TException {
         if(doPreFilter(token)){

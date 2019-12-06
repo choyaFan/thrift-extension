@@ -49,70 +49,17 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twitter</groupId>
-            <artifactId>finagle-thrift_2.9.2</artifactId>
-            <version>6.5.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.choy</groupId>
             <artifactId>thrift-plus.core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twitter</groupId>
-            <artifactId>scrooge-core_2.9.2</artifactId>
-            <version>3.5.0</version>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-core</artifactId>
+            <version>1.5.3</version>
         </dependency>
     </dependencies>
-
-
-<build>
-    <plugins>
-    <!-- Generate Finagle scala classes for thrift definitions -->
-    <plugin>
-        <groupId>com.twitter</groupId>
-        <artifactId>scrooge-maven-plugin</artifactId>
-        <version>3.3.2</version>
-        <configuration>
-            <language>scala</language> <!-- default is scala -->
-            <thriftOpts>
-                <!-- add other Scrooge command line options using thriftOpts -->
-                <thriftOpt>--finagle</thriftOpt>
-                <!--<thriftOpt>-    -ostrich</thriftOpt>-->
-            </thriftOpts>
-            <outputDirectory>target/generated-sources</outputDirectory>
-            <!-- tell scrooge to extract thrifts from these artifacts -->
-            <dependencyIncludes>
-                <include>event-logger-thrift</include>
-            </dependencyIncludes>
-        </configuration>
-        <executions>
-            <execution>
-                <id>thrift-sources</id>
-                <phase>generate-sources</phase>
-                <goals>
-                    <goal>compile</goal>
-                </goals>
-            </execution>
-            <execution>
-                <id>thrift-test-sources</id>
-                <phase>generate-test-sources</phase>
-                <goals>
-                    <goal>testCompile</goal>
-                </goals>
-            </execution>
-        </executions>
-    </plugin>
-</plugins>
-</build>
 
 
 </project>

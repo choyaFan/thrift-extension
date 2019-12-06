@@ -94,6 +94,7 @@
                 <artifactId>jsr305</artifactId>
                 <version>3.0.2</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -1,4 +1,4 @@
-import com.choy.thriftplus.eureka.test.gen.ExternalServiceS;
+import com.choy.thriftplus.eureka.test.gen.ExternalService;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
@@ -12,7 +12,7 @@ public class ThriftEurekaServer {
         try {
             ServerSocket socket = new ServerSocket(8081);
             TServerSocket serverTransport = new TServerSocket(socket);
-            ExternalServiceS.Processor processor = new ExternalServiceS.Processor(new FilterService());
+            ExternalService.Processor processor = new ExternalService.Processor(new FilterService());
             TServer.Args tServerArgs = new TServer.Args(serverTransport);
             tServerArgs.processor(processor);
             TServer server = new TSimpleServer(tServerArgs);
