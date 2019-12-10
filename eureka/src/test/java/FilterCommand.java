@@ -1,8 +1,8 @@
-import com.choy.thriftplus.eureka.test.gen.ExternalService;
 import com.netflix.hystrix.*;
+import com.netflix.hystrix.exception.HystrixBadRequestException;
 
-public class FilterCommand extends HystrixCommand<Object> {
-    FilterService filterService;
+public class FilterCommand extends HystrixCommand<Boolean> {
+    FilterService filterService = new FilterService();
     String token;
     protected FilterCommand(String token){
         super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("FilterService"))
@@ -10,12 +10,16 @@ public class FilterCommand extends HystrixCommand<Object> {
         this.token = token;
     }
     @Override
-    protected Object run() throws Exception {
-        return filterService.doPreFilter(token);
+    protected Boolean run() throws NullPointerException {
+//        try{
+            return filterService.doPreFilter(token);
+//        }catch (NullPointerException e){
+//            throw new HystrixBadRequestException("Business exception occurred", e);
+//        }
     }
 
     @Override
-    protected Object getFallback() {
-        return "fall back";
+    protected Boolean getFallback() {
+        return false;
     }
 }
