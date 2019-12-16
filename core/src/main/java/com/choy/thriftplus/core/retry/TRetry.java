@@ -83,11 +83,11 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
 
             job.onRetry(this);
 
-//            if (waitingUntilMilli > 0){
-//                new WaitThread(this).start();
-//            }else {
-//                onWaitFinished();
-//            }
+            if (waitingUntilMilli > 0){
+                new WaitThread(this).start();
+            }else {
+                onWaitFinished();
+            }
         }
     }
 
@@ -115,7 +115,7 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
                 try {
                     Thread.sleep(10);
                 }catch (InterruptedException e){
-                    //throw new
+                    throw new TRetryFailedException("Interrupted", e);
                 }
             }
 
@@ -149,6 +149,34 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
             throw new TRetryFailedException("retry failed", lastError.getThrowable());
         }
     }
+    
+    public TFuture<Result, Error> runAsync(){
+        startedAsBlocking = false;
+        reset();
+        runAsyncInternal();
+        
+        return new TFuture<Result, Error>() {
+            @Override
+            public boolean isRunning() {
+                return running;
+            }
+
+            @Override
+            public boolean isDone() {
+                return !running;
+            }
+
+            @Override
+            public void cancel() {
+                cancel = true;
+            }
+
+            @Override
+            public void runNow() {
+                waitingUntilMilli = 0;
+            }
+        };
+    }
 
     protected void notifyListenerSuccess(Result result){
         for(TRetryListener<Result, Error> listener : listeners){
@@ -178,5 +206,49 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
         signalized = false;
         running = true;
         job.runAsync(this);
+    }
+    
+    public void onWaitFinished(){
+        if(cancel){
+            notifyListenerFailed(null);
+            return;
+        }
+        
+        runAsyncInternal();
+    }
+    
+    public void setJob(TRetryJob<Result, Error> job){
+        this.job = job;
+    }
+    
+    public boolean isCancelled(){
+        return cancel;
+    }
+    
+    public long getWaitingUntilMilli(){
+        return waitingUntilMilli;
+    }
+    
+    public static class WaitThread extends Thread {
+        protected TRetry retry;
+        
+        public WaitThread(TRetry retry){
+            this.retry = retry;
+        }
+        
+        @Override
+        public void run(){
+            while (!retry.isCancelled()
+                    && retry.getWaitingUntilMilli() > 0
+                    && System.currentTimeMillis() < retry.getWaitingUntilMilli()) {
+                try {
+                    Thread.sleep(10);
+                }catch (InterruptedException e){
+                    throw new RuntimeException("Interrupted", e);
+                }
+            }
+            
+            retry.onWaitFinished();
+        }
     }
 }

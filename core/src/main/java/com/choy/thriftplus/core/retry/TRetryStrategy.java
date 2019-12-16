@@ -10,5 +10,4 @@ public interface TRetryStrategy {
     long getWaitMilli();
 
     TRetryStrategy copy();
-//    JSONObject toJSON(JSONObject json);
 }
