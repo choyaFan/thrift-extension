@@ -4,90 +4,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-/**
- * Implementation of {@link BackOff} that increases the back off period for each retry attempt using
- * a randomization function that grows exponentially.
- * <p>
- * <p>
- * {@link #nextBackOffMillis()} is calculated using the following formula:
- * </p>
- * <p>
- * <pre>
- * randomized_interval =
- * retry_interval * (random value in range [1 - randomization_factor, 1 + randomization_factor])
- * </pre>
- * <p>
- * <p>
- * In other words {@link #nextBackOffMillis()} will range between the randomization factor
- * percentage below and above the retry interval. For example, using 2 seconds as the base retry
- * interval and 0.5 as the randomization factor, the actual back off period used in the next retry
- * attempt will be between 1 and 3 seconds.
- * </p>
- * <p>
- * <p>
- * <b>Note:</b> max_interval caps the retry_interval and not the randomized_interval.
- * </p>
- * <p>
- * <p>
- * If the time elapsed since an {@link TRetryStrategyBackoff} instance is created goes past the
- * max_elapsed_time then the method {@link #nextBackOffMillis()} starts returning
- * {@link BackOff#STOP}. The elapsed time can be reset by calling {@link #reset()}.
- * </p>
- * <p>
- * <p>
- * Example: The default retry_interval is .5 seconds, default randomization_factor is 0.5, default
- * multiplier is 1.5 and the default max_interval is 1 minute. For 10 tries the sequence will be
- * (values in seconds) and assuming we go over the max_elapsed_time on the 10th try:
- * </p>
- * <p>
- * <pre>
- * request#     retry_interval     randomized_interval
- *
- * 1             0.5                [0.25,   0.75]
- * 2             0.75               [0.375,  1.125]
- * 3             1.125              [0.562,  1.687]
- * 4             1.687              [0.8435, 2.53]
- * 5             2.53               [1.265,  3.795]
- * 6             3.795              [1.897,  5.692]
- * 7             5.692              [2.846,  8.538]
- * 8             8.538              [4.269, 12.807]
- * 9            12.807              [6.403, 19.210]
- * 10           19.210              {@link BackOff#STOP}
- * </pre>
- * <p>
- * <p>
- * Implementation is not thread-safe.
- * </p>
- *
- * @author Ravi Mistry
- * @since 1.15
- */
 public class TRetryStrategyBackoff implements BackOff, TRetryStrategy {
     public static final String NAME = "backoff";
-    /**
-     * The default initial interval value in milliseconds (0.5 seconds).
-     */
+    
     public static final int DEFAULT_INITIAL_INTERVAL_MILLIS = 500;
-    /**
-     * The default randomization factor (0.5 which results in a random period ranging between 50%
-     * below and 50% above the retry interval).
-     */
+    
     public static final double DEFAULT_RANDOMIZATION_FACTOR = 0.5;
-    /**
-     * The default multiplier value (1.5 which is 50% increase per back off).
-     */
+    
     public static final double DEFAULT_MULTIPLIER = 1.5;
-    /**
-     * The default maximum back off time in milliseconds (1 minute).
-     */
+    
     public static final int DEFAULT_MAX_INTERVAL_MILLIS = 60000;
-    /**
-     * The default maximum elapsed time in milliseconds (15 minutes).
-     */
+    
     public static final int DEFAULT_MAX_ELAPSED_TIME_MILLIS = 900000;
-    /**
-     * The default maximum number of attempts.
-     */
+    
     public static final int DEFAULT_MAX_ATTEMPTS = -1;
     protected static final String FIELD_INITIAL_INTERVAL_MILLIS = "initialMillis";
     protected static final String FIELD_RANDOMIZATION_FACTOR = "randFact";
@@ -95,18 +24,10 @@ public class TRetryStrategyBackoff implements BackOff, TRetryStrategy {
     protected static final String FIELD_MAX_INTERVAL_MILLIS = "maxIntMillis";
     protected static final String FIELD_MAX_ELAPSED_TIME_MILLIS = "maxElapsedMillis";
     protected static final String FIELD_MAX_ATTEMPTS = "maxAttempts";
-    /**
-     * The initial retry interval in milliseconds.
-     */
+    
     private final int initialIntervalMillis;
-    /**
-     * The randomization factor to use for creating a range around the retry interval.
-     * <p>
-     * <p>
-     * A randomization factor of 0.5 results in a random period ranging between 50% below and 50%
-     * above the retry interval.
-     * </p>
-     */
+    
+    //A randomization factor of 0.5 results in a random period ranging between 50% below and 50% above the retry interval.
     private final double randomizationFactor;
     /**
      * The value to multiply the current interval with for each retry attempt.
