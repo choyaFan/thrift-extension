@@ -478,20 +478,7 @@ public class TRetryStrategyBackoff implements BackOff, TRetryStrategy {
         public final int getMaxIntervalMillis() {
             return maxIntervalMillis;
         }
-
-        /**
-         * Sets the maximum value of the back off period in milliseconds. Once the current interval
-         * reaches this value it stops increasing. The default value is
-         * {@link #DEFAULT_MAX_INTERVAL_MILLIS}.
-         * <p>
-         * <p>
-         * Overriding is only supported for the purpose of calling the super implementation and changing
-         * the return type, but nothing else.
-         * </p>
-         *
-         * @param maxIntervalMillis int
-         * @return new Builder instance
-         */
+        
         public Builder setMaxIntervalMillis(int maxIntervalMillis) {
             this.maxIntervalMillis = maxIntervalMillis;
             return this;
@@ -512,46 +499,16 @@ public class TRetryStrategyBackoff implements BackOff, TRetryStrategy {
         public final int getMaxElapsedTimeMillis() {
             return maxElapsedTimeMillis;
         }
-
-        /**
-         * Sets the maximum elapsed time in milliseconds. The default value is
-         * {@link #DEFAULT_MAX_ELAPSED_TIME_MILLIS}. Must be {@code > 0}.
-         * <p>
-         * <p>
-         * If the time elapsed since an {@link TRetryStrategyBackoff} instance is created goes past the
-         * max_elapsed_time then the method {@link #nextBackOffMillis()} starts returning
-         * {@link BackOff#STOP}. The elapsed time can be reset by calling {@link #reset()}.
-         * </p>
-         * <p>
-         * <p>
-         * Overriding is only supported for the purpose of calling the super implementation and changing
-         * the return type, but nothing else.
-         * </p>
-         *
-         * @param maxElapsedTimeMillis int
-         * @return new Builder instance
-         */
+        
         public Builder setMaxElapsedTimeMillis(int maxElapsedTimeMillis) {
             this.maxElapsedTimeMillis = maxElapsedTimeMillis;
             return this;
         }
-
-        /**
-         * Maximum number of attempts
-         *
-         * @return number of attempts
-         */
+        
         public int getMaxAttempts() {
             return this.maxAttempts;
         }
-
-        /**
-         * Sets maximum number of attempts before quitting.
-         * The default value is {@link #DEFAULT_MAX_ATTEMPTS}. If is {@code < 0} this limit is not taken into account.
-         *
-         * @param maxAttempts number of attempts
-         * @return this
-         */
+        
         public Builder setMaxAttempts(int maxAttempts) {
             this.maxAttempts = maxAttempts;
             return this;

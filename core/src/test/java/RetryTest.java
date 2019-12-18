@@ -17,8 +17,8 @@ public class RetryTest {
             public void runAsyncNoException(TCallBack<Boolean, Throwable> callBack) throws Throwable {
                 try {
                     
-                }catch (Throwable e){
-                    
+                }catch (Exception e){
+                    callBack.onFail(new TRetryJobErr(e), false);
                 }
             }
         });

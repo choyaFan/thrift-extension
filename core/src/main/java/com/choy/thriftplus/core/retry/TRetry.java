@@ -75,9 +75,9 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
             notifyListenerFailed(error);
             return;
         }
-        if(retryStrategy.shouldContinue() || cancel){
+        if(retryStrategy.shouldContinue() || cancel) {
             notifyListenerFailed(error);
-        }else if(!startedAsBlocking){
+        }else if(retryStrategy.shouldContinue()) {
             final long waitMilli = retryStrategy.getWaitMilli();
             waitingUntilMilli = waitMilli > 0 ?System.currentTimeMillis() + waitMilli : 0;
 
@@ -102,6 +102,7 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
         running = true;
         startedAsBlocking = true;
         for(int i = 0; retryStrategy.shouldContinue() && !cancel && !abort; i++){
+            System.out.println("try this");
             //ask strategy if we are going to wait
             final long waitMilli = retryStrategy.getWaitMilli();
             waitingUntilMilli = waitMilli > 0 ? System.currentTimeMillis() + waitMilli : 0;
@@ -111,7 +112,7 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
                 job.onRetry(this);
             }
 
-            while (!abort && !cancel && waitingUntilMilli > 0 && System.currentTimeMillis() > waitingUntilMilli){
+            while (!abort && !cancel && waitingUntilMilli > 0 && System.currentTimeMillis() < waitingUntilMilli){
                 try {
                     Thread.sleep(10);
                 }catch (InterruptedException e){
