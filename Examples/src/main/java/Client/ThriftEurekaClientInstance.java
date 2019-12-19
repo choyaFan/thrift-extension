@@ -1,10 +1,12 @@
+package Client;
+
 import com.choy.thriftplus.core.loadBalancer.DynamicLoadBalancer;
 import com.choy.thriftplus.core.loadBalancer.RoundRobinDynamicLoadBalancer;
-import com.choy.thriftplus.eureka.test.gen.ExternalService;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import thrift.ExternalService;
 
 public class ThriftEurekaClientInstance {
     public static void main(String[] args) {

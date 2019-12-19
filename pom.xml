@@ -101,6 +101,7 @@
     <modules>
         <module>core</module>
         <module>eureka</module>
+        <module>Examples</module>
     </modules>
 
     <build>

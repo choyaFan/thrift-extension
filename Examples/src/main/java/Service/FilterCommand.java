@@ -1,5 +1,8 @@
-import com.netflix.hystrix.*;
-import com.netflix.hystrix.exception.HystrixBadRequestException;
+package Service;
+
+import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
 
 public class FilterCommand extends HystrixCommand<Boolean> {
     FilterService filterService = new FilterService();

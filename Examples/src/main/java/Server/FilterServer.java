@@ -1,5 +1,8 @@
+package Server;
+
 import com.choy.thriftplus.eureka.ThriftPlusWithEureka;
-import com.choy.thriftplus.eureka.test.gen.ObjectIdGenerator;
+import thrift.ObjectIdGenerator;
+import Service.Service;
 
 public class FilterServer {
 

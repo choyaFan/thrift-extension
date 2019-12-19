@@ -191,7 +191,7 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
         }
     }
 
-    protected void reset(){
+    protected void reset() {
         attempts = 0;
         signalized = false;
         lastWasSuccess = false;
@@ -203,10 +203,14 @@ public class TRetry<Result, Error> implements TCallBack<Result, Error> {
         retryStrategy.reset();
     }
 
-    protected void runAsyncInternal(){
+    protected void runAsyncInternal() {
         signalized = false;
         running = true;
         job.runAsync(this);
+    }
+    
+    public void addListener(TRetryListener<Result, Error> listener) {
+        listeners.add(listener);
     }
     
     public void onWaitFinished(){

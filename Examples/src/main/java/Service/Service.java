@@ -1,4 +1,6 @@
-import com.choy.thriftplus.eureka.test.gen.ObjectIdGenerator;
+package Service;
+
+import thrift.ObjectIdGenerator;
 import org.apache.thrift.TException;
 
 public class Service implements ObjectIdGenerator.Iface {
