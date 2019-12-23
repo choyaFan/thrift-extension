@@ -17,6 +17,10 @@ public class ThriftPlusWithEureka {
                 .build();
     }
 
+    public ThriftPlusWithEureka() {
+        
+    }
+
     public void serve() {
         plus.serve();
     }

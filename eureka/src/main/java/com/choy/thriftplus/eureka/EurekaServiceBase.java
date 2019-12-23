@@ -54,7 +54,7 @@ public class EurekaServiceBase {
                 System.out.println("Waiting ... verifying service registration with eureka ...");
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
