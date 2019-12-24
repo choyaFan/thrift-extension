@@ -41,7 +41,6 @@ public class EurekaServiceBase {
 
     public void registerDown() {
         applicationInfoManager.setInstanceStatus(InstanceInfo.InstanceStatus.DOWN);
-        DiscoveryManager.getInstance().shutdownComponent();
     }
 
     private void waitForRegistrationWithEureka(EurekaClient eurekaClient) {
